@@ -11,10 +11,18 @@ function readFunction(leftRight, steps) {
 		firstFade = "left";
 	}
 	
-	document.getElementById("q" + steps).getElementsByClassName(firstFade)[0].childNodes[0].setAttribute("class", "fadeOut");
+	//first fade
+	document.getElementById("q" + steps).getElementsByClassName(firstFade)[0].childNodes[0].style.opacity = "0";
 	
+	//fade out selected
 	document.getElementById("q" + steps).getElementsByClassName(firstFade)[0].childNodes[0].addEventListener("transitionend", function(event) {
-		document.getElementById("q" + steps).getElementsByClassName(leftRight)[0].childNodes[0].setAttribute("class", "fadeOut");
+		document.getElementById("q" + steps).getElementsByClassName(leftRight)[0].style.opacity = "0";
+	}, false);
+	
+	//grow selected
+	document.getElementById("q" + steps).getElementsByClassName(leftRight)[0].addEventListener("transitionend", function(event) {
+		//alert("kk")
+		document.getElementById("q" + steps).getElementsByClassName(leftRight)[0].style.width = "0%";
 	}, false);
 	    
 };
@@ -39,10 +47,6 @@ for (var i = 0; i < images.length; i++) {
     	
     }, false);
     
-    
-    //images[i].addEventListener(transitionEvent, function() {
-	//	console.log('Transition complete!  This is the callback, no library needed!');
-	//});
 }
 
 document.getElementById("q" + step).style.visibility = "visible"; 
