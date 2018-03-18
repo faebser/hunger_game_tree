@@ -46,9 +46,10 @@ tomato - wide range of climates from tropical to temperate
  document.addEventListener("DOMContentLoaded", function(event) {
 	(function() {
 
-		var yes_element = document.getElementById("yes");
-		var no_element = document.getElementById("no");
-		var text = document.getElementById("text");
+		var yes_image = document.getElementById("yes");
+		var yes_element = yes_image.parentElement;
+		var no_image = document.getElementById("no");
+		var no_element = no_image.parentElement;
 
 		function node(_question, _visual) {
 			return {
@@ -65,13 +66,51 @@ tomato - wide range of climates from tropical to temperate
 			return !(node instanceof Array);
 		}
 
+		function fadein(selected_element, selected_image, other_element, other_element) {
+			return new Promise(function (resolve) {
+
+			});
+		}
+
+		function fadeout(selected_element, selected_image, other_element, other_image) {
+			selected_element.style.transition = null;
+			other_element.style.transition = null;
+			return new Promise(function (resolve) {
+				other_image.style.opacity = 0;
+				other_image.addEventListener("transitionend", function () {
+					window.requestAnimationFrame(function () {
+						selected_element.style.width = "100%";
+						other_element.style.width = "0%";
+						window.setTimeout(function () {
+							selected_image.style.opacity = 0;
+							selected_image.addEventListener("transitionend", function () {
+								selected_element.style.transition = "none";
+								other_element.style.transition = "none";
+								selected_element.style.width = "50%";
+								other_element.style.width = "50%";
+								
+								resolve();
+							}, {once: true});
+						}, 1000);
+					});
+				}, {once: true});
+			});
+		}
+
 		// a function that returns a function
 
 
 		function load_node(node, yes, no) {
+			console.log("loading new node");
+			// set opacity to 1 for images
 
 			console.log(node.question);
-			text.textContent = node.question;
+			no_image.setAttribute('src', node.visual[1]);
+			yes_image.style.opacity = 1;
+			no_image.style.opacity = 1;
+			window.setTimeout(function () {
+				
+			}, 500)
 			// unload all event handlers
 			// check if end node
 			// add event handlers for loading nodes
@@ -81,8 +120,13 @@ tomato - wide range of climates from tropical to temperate
 					reached_end(yes);
 					return;
 				}
+				// animation
+				fadeout(yes_element, yes_image, no_element, no_image)
+					.then(function () {
+						load_node(yes[0], yes[1][0], yes[1][1]);
+					});
 				// normal node
-				load_node(yes[0], yes[1][0], yes[1][1]);
+				
 			}, { 'once': true });
 
 			no_element.addEventListener('click', function once() {
@@ -90,37 +134,27 @@ tomato - wide range of climates from tropical to temperate
 					reached_end(no);
 					return;
 				}
-				load_node(no[0], no[1][0], no[1][1]);
+				fadeout(no_element, no_image, yes_element, yes_image)
+					.then(function () {
+						load_node(no[0], no[1][0], no[1][1]);
+					});
 			}, { 'once': true });
 		};
 
 		function reached_end(node) {
 			console.log(node);
-			text.textContent = node;
 		};
 
 		// [node, [[node, []], [node, []]]]
 
 		var tree = [
-			node("human activity?", ["img/test.gif", "img/test2.gif"]), 
+			node("human activity?", ["img/3.gif", "img/4.gif"]), 
 			[
-				end_node("nope, nothing is going to grow here"),
-				[node("what kind of plants", ["img/test.gif", "img/test2.gif"]), [end_node("nope_dead"), end_node("its fucking maize")] ]
+				[node("what kind of plants", ["img/land_good.jpg", "img/land_bad.jpg"]), [end_node("nope_dead"), end_node("its fucking maize")] ],
+				[node("what kind of plants", ["img/land_bad.jpg", "img/land_good.jpg"]), [end_node("nope_dead"), end_node("its fucking maize")] ]
 			]
 		];
 
 		load_node(tree[0], tree[1][0], tree[1][1]);
-		console.log("run");
-		/*var barren = node("Barren land?", ["img/test.gif", "img/test2.gif"]);
-		var life = node("is there life?", ["img/test.gif", "img/test2.gif"]);
-		var fingers = node("can you dig your fingers into the soil?", ["img/test.gif", "img/test2.gif"]);
-		var lumps = node("How big are the lumps of the soil?", ["img/test.gif", "img/test2.gif"]);
-
-		var root_node = node("human activity?", ["img/test.gif", "img/test2.gif"]);
-		root_node.yes = end_node("nope, nothing is going to grow here");
-		root_node.no = node("what kind of plants", ["img/test.gif", "img/test2.gif"]);
-		root_node.no.yes = node("it's the maize", ["img/test.gif", "img/test2.gif"]);
-
-		console.log(root_node);*/
 	})();
 });
