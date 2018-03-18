@@ -10,7 +10,12 @@ function readFunction(leftRight, steps) {
 	}else{
 		firstFade = "left";
 	}
-	document.getElementById("q" + steps).getElementsByClassName(firstFade)[0].setAttribute("class", "fadeOut");
+	
+	document.getElementById("q" + steps).getElementsByClassName(firstFade)[0].childNodes[0].setAttribute("class", "fadeOut");
+	
+	document.getElementById("q" + steps).getElementsByClassName(firstFade)[0].childNodes[0].addEventListener("transitionend", function(event) {
+		document.getElementById("q" + steps).getElementsByClassName(leftRight)[0].childNodes[0].setAttribute("class", "fadeOut");
+	}, false);
 	    
 };
 
