@@ -50,6 +50,7 @@ tomato - wide range of climates from tropical to temperate
 		var yes_element = yes_image.parentElement;
 		var no_image = document.getElementById("no");
 		var no_element = no_image.parentElement;
+		var overlay = document.getElementById("overlay");
 
 		function node(_question, _visual) {
 			return {
@@ -105,6 +106,7 @@ tomato - wide range of climates from tropical to temperate
 			// set opacity to 1 for images
 
 			console.log(node.question);
+			yes_image.setAttribute('src', node.visual[0]);
 			no_image.setAttribute('src', node.visual[1]);
 			yes_image.style.opacity = 1;
 			no_image.style.opacity = 1;
@@ -142,6 +144,9 @@ tomato - wide range of climates from tropical to temperate
 		};
 
 		function reached_end(node) {
+			// show overlay
+			overlay.style.display = "flex";
+			overlay.style.opacity = 1;
 			console.log(node);
 		};
 
