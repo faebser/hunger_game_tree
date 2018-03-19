@@ -103,6 +103,7 @@ tomato - wide range of climates from tropical to temperate
 
 		function load_node(node, yes, no) {
 			console.log("loading new node");
+			console.log(node, yes, no);
 			// set opacity to 1 for images
 
 			console.log(node.question);
@@ -150,12 +151,19 @@ tomato - wide range of climates from tropical to temperate
 			console.log(node);
 		};
 
+		// the structure
 		// [node, [[node, []], [node, []]]]
 
 		var tree = [
 			node("human activity?", ["img/3.gif", "img/4.gif"]), 
 			[
-				[node("what kind of plants", ["img/land_good.jpg", "img/land_bad.jpg"]), [end_node("nope_dead"), end_node("its fucking maize")] ],
+				[
+					node("what kind of plants", ["img/land_good.jpg", "img/land_bad.jpg"]), 
+					[
+						[node("other question", ["img/5.gif", "img/6.gif"]), [end_node("nope"), end_node("nope")]], 
+						[node("other question", ["img/6.gif", "img/5.gif"]),[end_node("nope"), end_node("nope")]]
+					]
+				],
 				[node("what kind of plants", ["img/land_bad.jpg", "img/land_good.jpg"]), [end_node("nope_dead"), end_node("its fucking maize")] ]
 			]
 		];
