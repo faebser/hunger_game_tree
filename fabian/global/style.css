@@ -81,3 +81,11 @@ body, html {
 #overlay img {
 	max-width: 100%;
 }
+
+#overlay2 {
+	opacity: 1;
+	position: absolute;
+	width: 100vw;
+	height: 10vw;
+	z-index: 1100;
+}

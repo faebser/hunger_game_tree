@@ -52,6 +52,14 @@ tomato - wide range of climates from tropical to temperate
 		var no_element = no_image.parentElement;
 		var overlay = document.getElementById("overlay");
 
+		function reset_nodes(argument) {
+			yes_image = document.getElementById("yes");
+			yes_element = yes_image.parentElement;
+			no_image = document.getElementById("no");
+			no_element = no_image.parentElement;
+			overlay = document.getElementById("overlay");
+		}
+
 		function node(_question, _visual) {
 			return {
 				question: _question,
@@ -98,6 +106,14 @@ tomato - wide range of climates from tropical to temperate
 			});
 		}
 
+		function yes_click () {
+
+		};
+
+		function no_click () {
+			
+		};
+
 		// a function that returns a function
 
 
@@ -111,9 +127,7 @@ tomato - wide range of climates from tropical to temperate
 			no_image.setAttribute('src', node.visual[1]);
 			yes_image.style.opacity = 1;
 			no_image.style.opacity = 1;
-			window.setTimeout(function () {
-				
-			}, 500)
+
 			// unload all event handlers
 			// check if end node
 			// add event handlers for loading nodes
@@ -169,5 +183,25 @@ tomato - wide range of climates from tropical to temperate
 		];
 
 		load_node(tree[0], tree[1][0], tree[1][1]);
+
+		document.getElementById("overlay2").addEventListener("click", function reset() {
+
+			var clone = yes_element.cloneNode();
+			while (yes_element.firstChild) {
+					clone.appendChild(yes_element.lastChild);
+			}
+			yes_element.parentNode.replaceChild(clone, yes_element);
+
+			var clone = no_element.cloneNode();
+			while (no_element.firstChild) {
+					clone.appendChild(no_element.lastChild);
+			}
+			no_element.parentNode.replaceChild(clone, no_element);
+			overlay.style.display = "none";
+			overlay.style.opacity = 0;
+
+			reset_nodes();
+			load_node(tree[0], tree[1][0], tree[1][1]);
+		});
 	})();
 });
